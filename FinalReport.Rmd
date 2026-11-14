@@ -1,0 +1,315 @@
+---
+title: "Transfer Learning for High-Dimensional Generalized Linear Models"
+author: "Jonathan Jiang"
+date: "November 13, 2026"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    fig_caption: true
+    latex_engine: xelatex
+geometry: "margin=0.82in"
+fontsize: 10pt
+linkcolor: "MidnightBlue"
+urlcolor: "MidnightBlue"
+header-includes:
+  - \usepackage{amsmath,amssymb,booktabs,float,graphicx,needspace}
+  - \usepackage{tocloft}
+  - \renewcommand{\cfttoctitlefont}{\Large\bfseries}
+  - \renewcommand{\cftsecfont}{\fontsize{11.5}{13.7}\selectfont\bfseries}
+  - \renewcommand{\cftsubsecfont}{\fontsize{11.5}{13.7}\selectfont}
+  - \renewcommand{\cftsecpagefont}{\fontsize{11.5}{13.7}\selectfont\bfseries}
+  - \renewcommand{\cftsubsecpagefont}{\fontsize{11.5}{13.7}\selectfont}
+  - \setlength{\cftbeforesecskip}{4.5pt}
+  - \setlength{\parskip}{0.25em}
+  - \linespread{0.97}
+---
+
+\clearpage
+
+# Abstract {-}
+
+When a dataset contains many predictors but few observations, fitting a reliable regression model can be difficult. Data from related groups can help, although using groups that differ too much from the target may worsen prediction. This report examines Trans-GLM, the method developed by Tian and Feng (2023) for transferring information between high-dimensional generalized linear models. The procedure selects candidate source datasets, fits a pooled model, and uses the target observations to correct its coefficients. I ran a Gaussian simulation with 500 predictors, six candidate sources, and ten repetitions per setting. The number of transferable sources ranged from zero to six, and the coefficient-mismatch parameter was set to $h=1,10,20$. Automatic Trans-GLM generally had lower prediction error than target-only Lasso when useful sources were present, while unrestricted pooling performed poorly when sources were unsuitable. The proposed real-data study uses gene expression to predict gemcitabine sensitivity in pancreatic-cancer cell lines. Further work will compare Trans-GLM with Pretrained Lasso and evaluate additional cancer datasets.
+
+# Introduction
+
+Gene-expression data often have thousands of measurements for each sample, but the number of available samples can be small. This is a problem for regression because there may be more predictors than observations. Lasso can produce a sparse model by penalizing large coefficients, although a small training sample still limits how accurately the coefficients can be estimated.
+
+For the planned application, the goal is to predict gemcitabine sensitivity in pancreatic-cancer cell lines from RNA-seq expression levels. Drug-response and expression data are also available for other types of cancer. Those samples could help fit a model for pancreatic cancer if the relationships between gene expression and drug response are similar across cancer types. If the relationships differ, combining everything into one training set could be worse than fitting a pancreatic-only model.
+
+Trans-GLM, proposed by Tian and Feng (2023), is designed for this situation. Instead of assuming all external data are useful, it evaluates candidate sources against the target, fits a model using the sources it accepts, and adjusts that fit using target observations. I first describe the statistical model and its estimation procedures. I then report results from a Gaussian simulation and outline a gene-expression application and a comparison with the Pretrained Lasso method of Craig et al. (2025).
+
+# Methods
+
+## Data structure, GLMs, and sparsity
+
+We have a target dataset indexed by $k=0$ and $K$ source datasets indexed by $k=1,\ldots,K$. Dataset $k$ consists of $n_k$ independent observations $(x_i^{(k)},y_i^{(k)})$. The predictor vectors all have the same $p$ variables, so the predictor columns must correspond across datasets. Each dataset can have a different coefficient vector $w^{(k)}$. The coefficient vector we want to estimate is the one for the target, $\beta=w^{(0)}$.
+
+Tian and Feng (2023) assume a canonical exponential-family generalized linear model:
+
+$$
+ f_k(y\mid x)=\rho(y)\exp\left\{yx^\top w^{(k)}-\psi(x^\top w^{(k)})\right\}.
+$$
+
+The quantity $x^\top w^{(k)}$ is the linear predictor. The function $\psi$ determines the response distribution. With unit dispersion, its first and second derivatives give the conditional mean and variance:
+
+$$
+ E(Y^{(k)}\mid X=x)=\psi'(x^\top w^{(k)}),\qquad
+ \operatorname{Var}(Y^{(k)}\mid X=x)=\psi''(x^\top w^{(k)}).
+$$
+
+\Needspace{12\baselineskip}
+
+The same model formulation covers continuous Gaussian responses, binary logistic responses, and Poisson counts. Table 1 gives the conditional mean for each case, using $t=x^\top\beta$ as the target linear predictor. For logistic regression, the mean is the probability that the response equals one. For Poisson regression, it is the expected count.
+
+*Table 1. Conditional means for three canonical GLMs, with $t=x^\top\beta$.*
+
+| Model | $\psi(t)$ | Conditional mean $E(Y\mid X=x)$ |
+|:--|:--|:--|
+| Gaussian, variance 1 | $t^2/2$ | $t$ |
+| Logistic | $\log(1+e^t)$ | $e^t/(1+e^t)$ |
+| Poisson | $e^t$ | $e^t$ |
+
+A high-dimensional model may have $p>n_0$. To make estimation possible, the paper assumes that the target coefficients are sparse:
+
+$$
+ \|\beta\|_0=s\ll p.
+$$
+
+Only $s$ out of the $p$ coefficients are nonzero. The theoretical guarantees also depend on assumptions about the design matrices, the curvature of the likelihood, and the available sample sizes. In our Gaussian simulation, the observation errors have variance one. The source predictors follow a heavier-tailed distribution than the target predictors, which makes the source data more challenging to use.
+
+## Defining transferable sources
+
+The paper measures the difference between a source coefficient vector and the target coefficient vector by
+
+$$
+ \delta^{(k)}=\beta-w^{(k)},\qquad
+ \mathcal A_h=\{k:\|\delta^{(k)}\|_1\le h\}.
+$$
+
+The $\ell_1$ norm adds the absolute differences between corresponding coefficients. A source belongs to $\mathcal A_h$ if this total difference does not exceed $h$. Smaller values of $h$ give a more restrictive definition of transferability.
+
+We can identify transferable sources in simulated data because their coefficients are generated by the program. In a real dataset, the true coefficient vectors are unknown. For that reason, Trans-GLM uses held-out target observations to decide which sources to keep rather than calculating the coefficient differences directly.
+
+## Algorithm 1: pooled estimator and target correction
+
+Algorithm 1 starts with a chosen set of sources $\mathcal A$. The average negative log-likelihood for dataset $k$, leaving out constants that do not depend on $w$, is
+
+$$
+ \ell_k(w)=\frac{1}{n_k}\sum_{i=1}^{n_k}
+ \left[\psi\big((x_i^{(k)})^\top w\big)-y_i^{(k)}(x_i^{(k)})^\top w\right].
+$$
+
+The first step fits a penalized GLM to the target data together with the chosen sources:
+
+$$
+ \widehat w^{\mathcal A}=\arg\min_w\left\{
+ \frac{\sum_{k\in\{0\}\cup\mathcal A}n_k\ell_k(w)}
+ {n_0+\sum_{k\in\mathcal A}n_k}+\lambda_w\|w\|_1\right\}.
+$$
+
+The denominator is the total number of observations, not the number of datasets. Larger datasets therefore contribute more observations to the pooled loss. The $\ell_1$ penalty, controlled by $\lambda_w$, shrinks coefficients and encourages a sparse solution. Pooling gives the model more data to learn from, but the pooled coefficients may not be correct for the target if the source coefficients differ.
+
+The second step fixes $\widehat w^{\mathcal A}$ and estimates an adjustment from the target observations alone:
+
+$$
+ \widehat\delta^{\mathcal A}=\arg\min_\delta
+ \left\{\ell_0(\widehat w^{\mathcal A}+\delta)+\lambda_\delta\|\delta\|_1\right\},
+ \qquad \widehat\beta^{\mathcal A}=\widehat w^{\mathcal A}+\widehat\delta^{\mathcal A}.
+$$
+
+Here $\delta$ describes how the pooled coefficients should change to fit the target data. Its penalty, $\lambda_\delta\|\delta\|_1$, prevents an unnecessarily large adjustment. The final estimate is the pooled coefficient vector plus this target-specific correction. For a Gaussian model, the correction step can also be viewed as a penalized regression on the target residuals after subtracting the pooled predictions.
+
+## Algorithm 2: automatic source screening
+
+Algorithm 1 needs a source set, but that set will usually not be known in advance. Algorithm 2 selects sources by checking how well they predict held-out target observations. It divides the target sample into three folds. For each fold, the other two folds are used to fit a target-only Lasso and a separate pooled fit for each candidate source. The fitted models are evaluated on the held-out target fold. After all three rounds, each candidate source has an average target validation loss that can be compared with the target-only baseline.
+
+Let $\widehat L_0^{(0)}$ be the average held-out loss for target-only Lasso, and let $\widehat L_0^{(k)}$ be the corresponding loss when source $k$ is used. Algorithm 2 selects the source set
+
+$$
+ \widehat{\mathcal A}=\left\{k:\widehat L_0^{(k)}-\widehat L_0^{(0)}
+ \le C_0\max(\widehat\sigma,0.01)\right\}.
+$$
+
+The constant $C_0$ determines how much extra validation loss is allowed. The quantity $\widehat\sigma$ estimates the variation in the target-only validation losses. A source can be included even if its loss is slightly higher than the baseline, provided the difference is within this tolerance. The comparison uses target observations because the aim is to improve the target model, not to predict the source outcomes.
+
+Once the screening step produces $\widehat{\mathcal A}$, the method applies both steps of Algorithm 1 to the target data and the selected sources. It returns the selected source indices and the corrected target coefficient estimates.
+
+## Estimation guarantees and source-detection consistency
+
+Theorem 1 in Tian and Feng (2023) gives an upper bound for the target coefficient estimation error. Omitting constants and technical conditions, the bound can be written as
+
+$$
+ \|\widehat\beta^{\mathcal A_h}-\beta\|_2\ \lesssim\
+ \sqrt{\frac{s\log p}{n_0+n_{\mathcal A_h}}}
+ +\min\left\{h,\sqrt h\left(\frac{\log p}{n_0}\right)^{1/4}\right\},
+ \quad n_{\mathcal A_h}=\sum_{k\in\mathcal A_h}n_k.
+$$
+
+There are two parts to this bound. The first becomes smaller as more transferable observations are included. The second depends on $h$ and represents the error that can come from differences between the source and target models. Borrowing source data can improve the bound when the sources are similar enough, but including additional observations is not always beneficial.
+
+Theorem 4 concerns whether Algorithm 2 can identify the transferable source set. It establishes consistency under conditions that distinguish useful and unsuitable sources through their expected target losses, along with sufficient data and control over validation error. The result is asymptotic. It does not say that the procedure will select every source correctly in a finite sample, such as the 100-observation target samples used here.
+
+## Algorithm 3: inference for individual coefficients
+
+The first two algorithms estimate coefficients but do not directly provide valid confidence intervals. Their Lasso penalties introduce bias by shrinking coefficients toward zero. Algorithm 3 addresses this with a debiasing correction:
+
+$$
+ \widehat b=\widehat\beta+
+ \frac{1}{n_0}\widehat\Theta(X^{(0)})^\top
+ \left[y^{(0)}-\psi'(X^{(0)}\widehat\beta)\right].
+$$
+
+The bracketed term contains observed responses minus fitted conditional means. The matrix $\widehat\Theta$ estimates the inverse target Fisher information. The paper estimates it with penalized nodewise regressions that use selected source data and target-specific corrections. With the corrected estimate $\widehat b_j$ and its estimated standard error, the approximate interval for coefficient $j$ is
+
+$$
+ \widehat b_j\ \pm\ z_{1-\alpha/2}\,\widehat{\mathrm{SE}}_j.
+$$
+
+Under the assumptions in the paper, the interval has asymptotically valid coverage for an individual coefficient. This is not a guarantee of simultaneous coverage for every coefficient in the model. I did not implement Algorithm 3 in the preliminary simulation, which focuses on prediction error and source selection.
+
+# Numerical Experiments
+
+## Design and implementation
+
+Tian and Feng (2023) report simulations for Gaussian, logistic, and Poisson regression. Their results examine both gains from useful sources and losses from transferring information from unsuitable ones. For my preliminary experiment, I used the Gaussian data generator in the `glmtrans` R package and evaluated how the number of useful sources and the mismatch parameter affect target prediction.
+
+The simulated response model is
+
+$$
+ y_i^{(k)}=(x_i^{(k)})^\top w^{(k)}+b_k+\varepsilon_i^{(k)},
+ \qquad \varepsilon_i^{(k)}\sim N(0,1).
+$$
+
+The target has 500 predictors, with the first ten coefficients equal to 0.5 and the others zero. Target predictors follow a correlated Gaussian distribution with AR(1) covariance $\Sigma_{ij}=0.9^{|i-j|}$. The source predictors instead follow independent Student $t_4$ distributions. The data generator labels the first $K_a$ sources as transferable; the remaining sources are nontransferable. These labels are used to evaluate source detection but are not supplied to the automatic screening procedure.
+
+\Needspace{15\baselineskip}
+
+*Table 2. Settings used in the Gaussian simulation.*
+
+| Setting | Value |
+|:--|:--|
+| Target observations | $n_0=100$ |
+| Source observations | $K=6$, with $n_k=100$ for each source |
+| Independent target test observations | $n_{\mathrm{test}}=1{,}000$ |
+| Predictors and nonzero target coefficients | $p=500$, $s=10$ |
+| Transferable sources | $K_a=0,1,2,3,4,5,6$ |
+| Source-mismatch level | $h=1,10,20$ |
+| Number of repetitions | 10 per $(h,K_a)$ setting |
+| Tuning | Three-fold cross-validation |
+
+I compared three fits: target-only Lasso, Trans-GLM using all six sources, and Trans-GLM with automatic source screening. Target-only Lasso was fitted with `cv.glmnet` using `lambda.min`. Both transfer models used `glmtrans` with `alpha=1` and three-fold cross-validation; their source options were `transfer.source.id="all"` and `"auto"`. Each model was evaluated on an independent target test sample using MSE and MAE:
+
+$$
+ \mathrm{MSE}=\frac{1}{n_{\mathrm{test}}}\sum_i(y_i-\widehat y_i)^2,
+ \qquad
+ \mathrm{MAE}=\frac{1}{n_{\mathrm{test}}}\sum_i|y_i-\widehat y_i|.
+$$
+
+The random seed changed between repetitions and source settings so the generated samples differed while the analysis remained reproducible. Within a repetition, the target training and test samples stayed the same; for fixed $r$ and $K_a$, the source-generation seed was also kept the same across the three values of $h$.
+
+## Prediction results
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.98\linewidth]{figures/mse_lineplot.png}
+\caption{Average target-test MSE from ten repetitions at each combination of source mismatch $h$ and number of transferable sources $K_a$.}
+\end{figure}
+
+Figure 1 compares average test MSE as the number of transferable sources increases from zero to six. The clearest difference is at $K_a=0$, when none of the sources are suitable. Using all six sources gives MSE between 1.468 and 1.512, depending on $h$. Target-only Lasso gives 1.179, and automatic Trans-GLM gives 1.194. Pooling the unsuitable sources therefore makes prediction worse in this setting.
+
+With $K_a=2$, automatic Trans-GLM has MSE between 1.117 and 1.121, while the all-source fit remains much higher, between 1.434 and 1.499. The all-source error falls as more sources become transferable. By $K_a=6$, both transfer methods are close in performance, with MSE around 1.11--1.13. The target-only line stays at 1.179 because the same target data are used regardless of how the sources are generated. Automatic Trans-GLM generally has lower error than target-only Lasso in the settings with transferable sources.
+
+\Needspace{15\baselineskip}
+
+*Table 3. Average target-test MSE for selected settings. The CSV files contain the remaining results.*
+
+| $h$ | $K_a$ | Target-only | All sources | Automatic |
+|--:|--:|--:|--:|--:|
+| 1 | 0 | 1.179 | 1.512 | 1.194 |
+| 1 | 2 | 1.179 | 1.497 | 1.117 |
+| 1 | 6 | 1.179 | 1.114 | 1.112 |
+| 10 | 0 | 1.179 | 1.490 | 1.194 |
+| 10 | 2 | 1.179 | 1.499 | 1.118 |
+| 10 | 6 | 1.179 | 1.110 | 1.118 |
+| 20 | 0 | 1.179 | 1.468 | 1.194 |
+| 20 | 2 | 1.179 | 1.434 | 1.121 |
+| 20 | 6 | 1.179 | 1.123 | 1.128 |
+
+## Source-selection results
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.98\linewidth]{figures/source_selection_lineplot.png}
+\caption{Mean selection frequency for transferable and nontransferable source groups over ten repetitions per setting.}
+\end{figure}
+
+Figure 2 reports the proportion of runs in which the automatic method selected each type of source. Nontransferable sources were never selected in the recorded runs. For transferable sources, the selection rate was highest at $h=1$ and generally decreased as $h$ increased. When $K_a=2$, the mean selection rates were 95% at $h=1$, 90% at $h=10$, and 70% at $h=20$. When $K_a=6$, the corresponding rates were approximately 92%, 87%, and 68%.
+
+A source with a larger coefficient mismatch is harder for the algorithm to recognize as useful, which is consistent with the lower rates at $h=20$. Even so, the automatic method retained low test MSE in most scenarios. The plot does not include a transferable-source rate at $K_a=0$, since no such sources exist there. Similarly, there is no nontransferable-source rate at $K_a=6$. These results describe ten runs per setting; a selection rate of zero in this experiment should not be interpreted as a zero false-selection probability in general.
+
+## Limitations
+
+The main limitation is the small number of repetitions. Ten datasets per setting are enough to see general patterns, but not enough for precise estimates of average performance. I varied $K_a$ and $h$ while leaving sample size, predictor dimension, sparsity, and error variance fixed. The response was Gaussian throughout. Also, unlike the original paper's main simulation figures, these plots report target prediction error rather than coefficient estimation error. The source predictors have heavy tails, so some of the assumptions behind the theoretical guarantees may not hold exactly. Pretrained Lasso and oracle Trans-GLM were not included in these runs. Both are planned for the next set of experiments.
+
+\clearpage
+
+# Preliminary Real-Data Preparation
+
+## Identified gene-expression and drug-response data
+
+The real-data preparation uses gemcitabine sensitivity from GDSC2 and RNA-seq gene-expression measurements from Cell Model Passports. The original files are available through the [GDSC drug-sensitivity downloads](https://cellmodelpassports.sanger.ac.uk/downloads/gdsc) and [Cell Model Passports downloads](https://cellmodelpassports.sanger.ac.uk/downloads) (Iorio et al., 2016; van der Meer et al., 2019). The response variable is `LN_IC50`, the logarithm of the estimated concentration that inhibits cell growth by 50%. Lower values generally indicate greater sensitivity in cell-line experiments. The gene-expression predictors are $\log_2(\mathrm{TPM}+1)$ values.
+
+I matched the GDSC2 responses, model annotations, and TPM measurements by cell-model ID. Table 4 shows the resulting sample counts. The 233 eligible drug-response models included four non-small-cell lung lines without a matching TPM measurement. Removing those four left 229 cell lines: 30 pancreatic targets and 199 external-source lines.
+
+*Table 4. GDSC2 gemcitabine cell lines after matching drug responses and TPM expression.*
+
+| Role | Cancer type | Matched cell lines |
+|:--|:--|--:|
+| Target | Pancreatic | 30 |
+| Candidate source | Colorectal | 47 |
+| Candidate source | Gastric | 28 |
+| Candidate source | Non-small-cell lung | 84 |
+| Candidate source | Ovarian | 40 |
+| Total | Five cancer groups | 229 |
+
+The pancreatic sample contains only 30 observations, compared with 2,000 predictors in the prepared data. Trans-GLM will test whether borrowing information from some of the 199 external observations can improve prediction of gemcitabine response.
+
+## Completed cleaning and planned analysis
+
+The preprocessing script `03_PrepareGDSC2.R` matched the response, expression, and annotation files, kept valid gemcitabine observations, and aligned model IDs and gene columns. Of 41,145 original gene rows, 36,417 had valid TPM measurements across the 229 matched models. Of these, 15,933 had TPM greater than 1 in at least 40 of the 199 source samples (20%). I selected the 2,000 genes with the largest source-sample variance after transforming TPM values to $\log_2(\mathrm{TPM}+1)$. The final dataset contains 229 rows, 2,000 gene predictors, and four ID, group, and response columns, with no missing values. The processing steps and audit counts are documented in `20_RealData_DataProcessing.Rmd`.
+
+Because `LN_IC50` is continuous, the planned model is Gaussian Trans-GLM. Source screening will compare each candidate cancer group using held-out pancreatic training observations. Selected sources will enter the pooled fit, followed by a target-specific correction. Centering, scaling, and tuning will be performed within the relevant training folds. The real-data model has not yet been fitted, so no Trans-GLM prediction results or selected cancer groups are reported.
+
+# Future Steps
+
+## Further simulations and comparison methods
+
+I plan to increase the simulation to about 100 repetitions for each main setting. The first experiments will continue to vary $K_a$ and $h$. Separate experiments will change the target sample size, number of predictors, sparsity, and noise level so that the effect of each setting can be examined more clearly. Along with mean test MSE and MAE and their standard errors, I will record coefficient $\ell_2$ error, support recovery, and source-detection rates. Coefficient error will make the results more directly comparable with the simulations in Tian and Feng (2023). Logistic and Poisson models can be added after the Gaussian experiments are complete.
+
+The planned comparison with Pretrained Lasso (Craig et al., 2025) will use matching simulation data, random seeds, and target test sets. Pretrained Lasso fits a model on pooled data and then fits a group-specific model using an offset from the pooled prediction and different penalties for features selected in the first stage. Trans-GLM instead screens individual sources before pooling and estimates a correction for the target. A separate four-source comparison is planned with $K=4$, $n_0=100$, $n_k=100$, $p=500$, $s=10$, $h=5$, and $K_a\in\{0,2,4\}$, using 100 repetitions. It will include target-only Lasso, unrestricted pooling, Pretrained Lasso, automatic Trans-GLM, and an oracle Trans-GLM that knows the correct transferable sources. The oracle is only possible for simulated data. The comparison will help determine how the methods behave when some sources differ substantially from the target.
+
+## Analysis of GDSC2 gene expression
+
+The initial data matching and gene selection described in Section 4 are complete. Before fitting the real-data models, I will verify the analysis inputs and use repeated five-fold cross-validation on pancreatic samples, with about 20 repetitions if the sample size and computation allow. In each outer split, only pancreatic training folds and eligible source observations will be available for preprocessing, source screening, model fitting, and tuning. The held-out pancreatic fold will be used to calculate MSE and MAE.
+
+We will use the same outer folds for Trans-GLM, target-only Lasso, pooled Lasso, and Pretrained Lasso. For Trans-GLM, we will record how often each cancer group is selected and how consistently particular gene coefficients remain nonzero. Two questions will guide the analysis: whether external cancer data improve pancreatic drug-response prediction, and whether the same source groups tend to be selected across different training splits. Genes with nonzero coefficients will be treated as exploratory findings, not as confirmed biomarkers or evidence about treatment effects in patients.
+
+## Additional studies and independent validation
+
+Other drug-response datasets, including GDSC1, CTRPv2, and PRISM/DepMap, may provide additional gemcitabine measurements. We will first check whether their response measures, gene-expression features, and cell-line identifiers can be matched to the GDSC2 data. Duplicate or overlapping cell lines will need to be handled, and assay differences may require study-specific response standardization.
+
+If the datasets are compatible, we could use them as additional candidate sources. Trans-GLM would then test whether information transfers across studies as well as across cancer types. Another option is to reserve pancreatic lines from a separate study for independent testing. That would provide a more demanding evaluation than repeatedly splitting the same small GDSC2 target sample. We will decide between these options after confirming how many comparable cell lines are available.
+
+\clearpage
+
+# References {-}
+
+Craig, E., Pilanci, M., Le Menestrel, T., Narasimhan, B., Rivas, M. A., Gullaksen, S.-E., Dehghannasiri, R., Salzman, J., Taylor, J., & Tibshirani, R. (2025). Pretraining and the lasso. *Journal of the Royal Statistical Society Series B: Statistical Methodology*. https://doi.org/10.1093/jrsssb/qkaf050
+
+Iorio, F., et al. (2016). A landscape of pharmacogenomic interactions in cancer. *Cell*, 166(3), 740–754. \newline https://doi.org/10.1016/j.cell.2016.06.017
+
+Tian, Y., & Feng, Y. (2023). Transfer learning under high-dimensional generalized linear models. *Journal of the American Statistical Association*, 118(544), 2684–2697. https://doi.org/10.1080/01621459.2022.2071278
+
+van der Meer, D., Barthorpe, S., Yang, W., Lightfoot, H., Hall, C., Gilbert, J., Francies, H. E., & Garnett, M. J. (2019). Cell Model Passports: A hub for clinical, genetic and functional datasets of preclinical cancer models. *Nucleic Acids Research*, 47(D1), D923–D929. https://doi.org/10.1093/nar/gky872

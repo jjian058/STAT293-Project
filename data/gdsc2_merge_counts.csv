@@ -1,0 +1,6 @@
+"group","role","gemcitabine_responses","matched_tpm_models","missing_tpm"
+"Pancreatic","Target",30,30,0
+"Colorectal","Source",47,47,0
+"Gastric","Source",28,28,0
+"Non-small-cell lung","Source",88,84,4
+"Ovarian","Source",40,40,0

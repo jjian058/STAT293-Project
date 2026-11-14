@@ -1,0 +1,62 @@
+---
+title: "GDSC2 Gemcitabine: RNA-seq Data Preparation"
+output: html_document
+---
+
+This file describes the preprocessing for the planned Trans-GLM analysis. Pancreatic cancer is the target group; colorectal, gastric, non-small-cell lung, and ovarian cancers are candidate sources. The response is GDSC2 `LN_IC50` for gemcitabine and predictors are log2(TPM + 1) RNA-seq measurements.
+
+## 1. Files and matching
+
+The original files come from Cell Model Passports. `03_PrepareGDSC2.R` matches the `SANGER_MODEL_ID` in the GDSC2 spreadsheet with `model_id` in both the model list and the TPM matrix. The TPM matrix's first three rows are metadata and its fourth row is the gene header.
+
+The following command rebuilds the cleaned CSV files if the three original downloads have been placed in `data/raw/`. It is not run automatically during knitting because the original RNA-seq file is large.
+
+```{r eval=FALSE}
+source("03_PrepareGDSC2.R")
+```
+
+## 2. Number of matched cell lines
+
+```{r}
+counts = read.csv("data/gdsc2_merge_counts.csv")
+print(counts)
+print(sum(counts$matched_tpm_models))
+```
+
+Four non-small-cell lung models have gemcitabine responses but no matching TPM column. They were excluded before gene filtering.
+
+## 3. Select 2,000 genes
+
+The filtering rules use external-source expression data only. A gene must have TPM greater than 1 in at least 20% of the 199 source samples (40 samples). The 2,000 genes with the largest source-sample variance in log2(TPM + 1) are retained. Genes with missing or invalid TPM values in the matched models are excluded.
+
+```{r}
+filter_counts = read.csv("data/gdsc2_gene_filter_counts.csv")
+print(filter_counts)
+
+selected_genes = read.csv("data/gdsc2_selected_genes.csv")
+print(head(selected_genes[, c("gene_symbol", "ensembl_gene_id", "rank")]))
+```
+
+## 4. Check the modeling dataset
+
+```{r}
+cleaned = read.csv("data/gdsc2_gemcitabine_2000genes.csv", check.names = FALSE)
+
+print(dim(cleaned))
+print(table(cleaned$group))
+print(sum(is.na(cleaned)))
+print(range(cleaned$LN_IC50))
+print(head(cleaned[, 1:7]))
+```
+
+```{r}
+hist(cleaned$LN_IC50, main = "Gemcitabine response across matched cell lines",
+     xlab = "LN_IC50")
+boxplot(LN_IC50 ~ group, data = cleaned,
+        main = "Gemcitabine response by cancer type",
+        ylab = "LN_IC50", las = 2)
+```
+
+## 5. Status of analysis
+
+This notebook completes the initial matching and feature selection, not the final Trans-GLM analysis. Model fitting and evaluation must use held-out pancreatic observations; any centering, scaling, or tuning based on target data must be performed inside the corresponding training fold. The fixed source-only gene filter should be applied identically to both transfer methods in the planned comparison.

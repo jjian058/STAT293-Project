@@ -1,0 +1,230 @@
+"model_id","model_name","cancer_type","group","role","LN_IC50"
+"SIDM00042","PL4","Pancreatic Carcinoma","Pancreatic","Target",-0.517255
+"SIDM00053","MZ1-PC","Pancreatic Carcinoma","Pancreatic","Target",0.454287
+"SIDM00130","CFPAC-1","Pancreatic Carcinoma","Pancreatic","Target",-3.444133
+"SIDM00132","BxPC-3","Pancreatic Carcinoma","Pancreatic","Target",-0.677032
+"SIDM00301","KP-4","Pancreatic Carcinoma","Pancreatic","Target",-3.240813
+"SIDM00371","SUIT-2","Pancreatic Carcinoma","Pancreatic","Target",-1.782267
+"SIDM00411","YAPC","Pancreatic Carcinoma","Pancreatic","Target",-1.091093
+"SIDM00453","PA-TU-8988T","Pancreatic Carcinoma","Pancreatic","Target",-1.388208
+"SIDM00455","PA-TU-8902","Pancreatic Carcinoma","Pancreatic","Target",1.487982
+"SIDM00469","PSN1","Pancreatic Carcinoma","Pancreatic","Target",-3.830996
+"SIDM00505","MIA-PaCa-2","Pancreatic Carcinoma","Pancreatic","Target",-1.731407
+"SIDM00531","HuP-T4","Pancreatic Carcinoma","Pancreatic","Target",-3.02061
+"SIDM00533","HuP-T3","Pancreatic Carcinoma","Pancreatic","Target",1.084742
+"SIDM00571","KP-3","Pancreatic Carcinoma","Pancreatic","Target",4.491236
+"SIDM00582","KP-2","Pancreatic Carcinoma","Pancreatic","Target",2.615533
+"SIDM00583","KP-1N","Pancreatic Carcinoma","Pancreatic","Target",-0.632883
+"SIDM00664","Hs-766T","Pancreatic Carcinoma","Pancreatic","Target",3.528073
+"SIDM00669","HPAF-II","Pancreatic Carcinoma","Pancreatic","Target",0.976248
+"SIDM00670","HPAC","Pancreatic Carcinoma","Pancreatic","Target",0.099097
+"SIDM00899","AsPC-1","Pancreatic Carcinoma","Pancreatic","Target",3.809457
+"SIDM00934","CAPAN-1","Pancreatic Carcinoma","Pancreatic","Target",-1.649507
+"SIDM00943","CAPAN-2","Pancreatic Carcinoma","Pancreatic","Target",5.49598
+"SIDM00950","DAN-G","Pancreatic Carcinoma","Pancreatic","Target",-2.543222
+"SIDM01135","PANC-10-05","Pancreatic Carcinoma","Pancreatic","Target",-0.271417
+"SIDM01136","PANC-08-13","Pancreatic Carcinoma","Pancreatic","Target",4.170801
+"SIDM01137","PANC-04-03","Pancreatic Carcinoma","Pancreatic","Target",1.334767
+"SIDM01138","PANC-03-27","Pancreatic Carcinoma","Pancreatic","Target",-2.798807
+"SIDM01139","PANC-02-03","Pancreatic Carcinoma","Pancreatic","Target",0.347126
+"SIDM01165","SW1990","Pancreatic Carcinoma","Pancreatic","Target",1.494867
+"SIDM01188","SU8686","Pancreatic Carcinoma","Pancreatic","Target",2.363157
+"SIDM00049","DiFi","Colorectal Carcinoma","Colorectal","Source",-0.912614
+"SIDM00118","HCC2998","Colorectal Carcinoma","Colorectal","Source",-1.505993
+"SIDM00136","HT-29","Colorectal Carcinoma","Colorectal","Source",-0.602348
+"SIDM00150","KM12","Colorectal Carcinoma","Colorectal","Source",-0.962353
+"SIDM00193","SNU-81","Colorectal Carcinoma","Colorectal","Source",2.091924
+"SIDM00194","SNU-61","Colorectal Carcinoma","Colorectal","Source",1.789817
+"SIDM00214","SNU-407","Colorectal Carcinoma","Colorectal","Source",1.141452
+"SIDM00215","SNU-283","Colorectal Carcinoma","Colorectal","Source",-0.010963
+"SIDM00216","SNU-175","Colorectal Carcinoma","Colorectal","Source",-1.580801
+"SIDM00282","CW-2","Colorectal Carcinoma","Colorectal","Source",-0.531914
+"SIDM00359","RCM-1","Colorectal Carcinoma","Colorectal","Source",1.849566
+"SIDM00487","CCK-81","Colorectal Carcinoma","Colorectal","Source",-1.364587
+"SIDM00488","CaR-1","Colorectal Carcinoma","Colorectal","Source",-1.463384
+"SIDM00498","SNU-C5","Colorectal Carcinoma","Colorectal","Source",-2.904957
+"SIDM00527","MDST8","Colorectal Carcinoma","Colorectal","Source",-2.870109
+"SIDM00534","HT-115","Colorectal Carcinoma","Colorectal","Source",0.105427
+"SIDM00537","GP5d","Colorectal Carcinoma","Colorectal","Source",-3.563237
+"SIDM00541","HT55","Colorectal Carcinoma","Colorectal","Source",0.384255
+"SIDM00660","LS-411N","Colorectal Carcinoma","Colorectal","Source",0.372975
+"SIDM00677","LS-513","Colorectal Carcinoma","Colorectal","Source",-3.242431
+"SIDM00680","LS-180","Colorectal Carcinoma","Colorectal","Source",-2.064599
+"SIDM00681","LS1034","Colorectal Carcinoma","Colorectal","Source",0.721288
+"SIDM00776","LS-123","Colorectal Carcinoma","Colorectal","Source",1.110331
+"SIDM00777","NCI-H508","Colorectal Carcinoma","Colorectal","Source",-2.084116
+"SIDM00778","NCI-H747","Colorectal Carcinoma","Colorectal","Source",1.810777
+"SIDM00779","NCI-H716","Colorectal Carcinoma","Colorectal","Source",3.868973
+"SIDM00781","SNU-C2B","Colorectal Carcinoma","Colorectal","Source",-0.282011
+"SIDM00782","T84","Colorectal Carcinoma","Colorectal","Source",0.983628
+"SIDM00783","HCT-116","Colorectal Carcinoma","Colorectal","Source",-2.15085
+"SIDM00789","HCT-15","Colorectal Carcinoma","Colorectal","Source",-2.274382
+"SIDM00812","SW1417","Colorectal Carcinoma","Colorectal","Source",2.934227
+"SIDM00826","COLO-205","Colorectal Carcinoma","Colorectal","Source",1.143741
+"SIDM00832","SW948","Colorectal Carcinoma","Colorectal","Source",3.936462
+"SIDM00833","SW837","Colorectal Carcinoma","Colorectal","Source",0.361862
+"SIDM00834","SW1463","Colorectal Carcinoma","Colorectal","Source",3.515624
+"SIDM00835","SW1116","Colorectal Carcinoma","Colorectal","Source",3.56943
+"SIDM00837","SW48","Colorectal Carcinoma","Colorectal","Source",-1.903365
+"SIDM00839","LoVo","Colorectal Carcinoma","Colorectal","Source",-2.81442
+"SIDM00841","SW620","Colorectal Carcinoma","Colorectal","Source",-1.582869
+"SIDM00842","COLO-320-HSR","Colorectal Carcinoma","Colorectal","Source",-2.013862
+"SIDM00944","CL-11","Colorectal Carcinoma","Colorectal","Source",-2.044907
+"SIDM00957","COLO-678","Colorectal Carcinoma","Colorectal","Source",4.986886
+"SIDM01090","RKO","Colorectal Carcinoma","Colorectal","Source",-3.360928
+"SIDM01096","SK-CO-1","Colorectal Carcinoma","Colorectal","Source",-3.43303
+"SIDM01168","SW626","Colorectal Carcinoma","Colorectal","Source",1.788952
+"SIDM01197","SNU-C1","Colorectal Carcinoma","Colorectal","Source",3.126214
+"SIDM01233","C2BBe1","Colorectal Carcinoma","Colorectal","Source",1.560098
+"SIDM00040","TMK-1","Gastric Carcinoma","Gastric","Source",0.387463
+"SIDM00041","STS-0421","Gastric Carcinoma","Gastric","Source",-2.013938
+"SIDM00045","HSC-39","Gastric Carcinoma","Gastric","Source",-4.300855
+"SIDM00247","MKN45","Gastric Carcinoma","Gastric","Source",1.382462
+"SIDM00251","TGBC11TKB","Gastric Carcinoma","Gastric","Source",-2.523633
+"SIDM00260","MKN28","Gastric Carcinoma","Gastric","Source",2.071421
+"SIDM00271","MKN1","Gastric Carcinoma","Gastric","Source",0.184638
+"SIDM00274","GCIY","Gastric Carcinoma","Gastric","Source",-0.314302
+"SIDM00279","ECC12","Gastric Carcinoma","Gastric","Source",2.902219
+"SIDM00280","ECC10","Gastric Carcinoma","Gastric","Source",1.406454
+"SIDM00290","HGC-27","Gastric Carcinoma","Gastric","Source",-1.794592
+"SIDM00358","RERF-GC-1B","Gastric Carcinoma","Gastric","Source",0.558784
+"SIDM00383","SCH","Gastric Carcinoma","Gastric","Source",2.242005
+"SIDM00393","SK-GT-2","Gastric Carcinoma","Gastric","Source",1.624883
+"SIDM00503","FU97","Gastric Carcinoma","Gastric","Source",4.171132
+"SIDM00560","MKN7","Gastric Carcinoma","Gastric","Source",4.061866
+"SIDM00568","OCUM-1","Gastric Carcinoma","Gastric","Source",-1.212249
+"SIDM00570","NUGC-4","Gastric Carcinoma","Gastric","Source",4.575802
+"SIDM00572","NUGC-3","Gastric Carcinoma","Gastric","Source",-4.012882
+"SIDM00602","IM-95","Gastric Carcinoma","Gastric","Source",-0.047587
+"SIDM00665","Hs-746T","Gastric Carcinoma","Gastric","Source",3.451994
+"SIDM00687","KATOIII","Gastric Carcinoma","Gastric","Source",4.941904
+"SIDM00850","AGS","Gastric Carcinoma","Gastric","Source",-3.434424
+"SIDM00980","23132-87","Gastric Carcinoma","Gastric","Source",-2.098646
+"SIDM01144","SNU-5","Gastric Carcinoma","Gastric","Source",-3.657887
+"SIDM01145","SNU-16","Gastric Carcinoma","Gastric","Source",-3.85406
+"SIDM01146","SNU-1","Gastric Carcinoma","Gastric","Source",-1.968477
+"SIDM01147","NCI-N87","Gastric Carcinoma","Gastric","Source",1.034651
+"SIDM00046","H3255","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",2.133611
+"SIDM00047","EMC-BAC-2","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-2.833023
+"SIDM00048","EMC-BAC-1","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-0.398163
+"SIDM00116","NCI-H522","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",0.282979
+"SIDM00117","NCI-H322M","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-1.294323
+"SIDM00119","EKVX","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",3.899284
+"SIDM00133","HOP-62","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-1.004775
+"SIDM00134","HOP-92","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",2.595928
+"SIDM00137","NCI-H3122","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-2.678715
+"SIDM00138","NCI-H23","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-2.642506
+"SIDM00144","NCI-H460","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-4.421996
+"SIDM00237","PC-14","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-1.300925
+"SIDM00297","LC-2-ad","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-4.31711
+"SIDM00306","IA-LM","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",3.351706
+"SIDM00320","VMRC-LCD","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",3.051052
+"SIDM00339","LXF-289","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-0.420679
+"SIDM00344","LCLC-97TM1","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",0.013648
+"SIDM00345","LCLC-103H","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",1.760837
+"SIDM00355","RERF-LC-MS","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-3.452757
+"SIDM00356","RERF-LC-KJ","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",4.811159
+"SIDM00494","ABC-1","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-1.620566
+"SIDM00512","COR-L23","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",1.858513
+"SIDM00513","COR-L105","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-0.09608
+"SIDM00547","LU-65","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",0.69294
+"SIDM00645","NCI-H1355","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",0.64634
+"SIDM00649","NCI-H1299","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-0.043212
+"SIDM00651","NCI-H1155","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-2.859085
+"SIDM00658","NCI-H1435","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",2.45928
+"SIDM00700","NCI-H2135","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",6.87931
+"SIDM00702","NCI-H2122","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-2.634238
+"SIDM00703","NCI-H2110","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-4.656746
+"SIDM00708","NCI-H2087","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-0.642437
+"SIDM00709","NCI-H2085","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",2.885272
+"SIDM00715","NCI-H2030","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",3.315708
+"SIDM00718","NCI-H358","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",0.83309
+"SIDM00723","NCI-H2444","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",6.710755
+"SIDM00724","NCI-H2405","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",1.619753
+"SIDM00726","NCI-H2347","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",5.136898
+"SIDM00727","NCI-H2342","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",2.815828
+"SIDM00728","NCI-H2291","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",2.502293
+"SIDM00729","NCI-H2228","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-1.372782
+"SIDM00734","NCI-H1437","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-0.712924
+"SIDM00737","NCI-H1770","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",3.470218
+"SIDM00738","NCI-H1755","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",1.613197
+"SIDM00739","NCI-H1734","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-4.748423
+"SIDM00742","NCI-H1693","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",2.04209
+"SIDM00743","NCI-H1666","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",0.244266
+"SIDM00744","NCI-H1651","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-1.029471
+"SIDM00745","NCI-H1650","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",2.772292
+"SIDM00746","NCI-H1648","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",2.711229
+"SIDM00747","NCI-H1623","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-2.948538
+"SIDM00748","NCI-H1581","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",1.561039
+"SIDM00749","NCI-H1573","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",5.490125
+"SIDM00750","NCI-H1568","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",1.713275
+"SIDM00751","NCI-H1563","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",4.497488
+"SIDM00754","NCI-H1781","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-3.459063
+"SIDM00755","NCI-H1793","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",0.475289
+"SIDM00756","NCI-H2009","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",0.146285
+"SIDM00758","NCI-H1993","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-2.324953
+"SIDM00759","NCI-H1975","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-0.979499
+"SIDM00762","NCI-H1944","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-2.456923
+"SIDM00763","NCI-H1915","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",2.46183
+"SIDM00768","NCI-H1869","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",3.804342
+"SIDM00769","NCI-H1838","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",4.790409
+"SIDM00771","NCI-H1792","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-3.16223
+"SIDM00810","A427","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-2.24137
+"SIDM00903","A549","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-3.595637
+"SIDM00921","Calu-6","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",1.054217
+"SIDM00922","Calu-3","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",0.144707
+"SIDM00925","NCI-H441","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",2.564545
+"SIDM00926","NCI-H2172","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",3.365741
+"SIDM00939","CAL-12T","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",2.027833
+"SIDM00990","BEN","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",1.120799
+"SIDM01067","HCC-827","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",2.490013
+"SIDM01068","HCC-78","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-3.681265
+"SIDM01069","HCC-44","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-1.196009
+"SIDM01070","HCC-366","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-1.904904
+"SIDM01116","NCI-H810","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-0.51244
+"SIDM01122","NCI-H661","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",4.750678
+"SIDM01124","NCI-H650","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",1.068273
+"SIDM01125","NCI-H647","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-1.481637
+"SIDM01127","NCI-H596","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",3.774334
+"SIDM01150","NCI-H838","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",-1.852138
+"SIDM01163","SW1573","Non-Small Cell Lung Carcinoma","Non-small-cell lung","Source",0.575826
+"SIDM00079","SK-OV-3","Ovarian Carcinoma","Ovarian","Source",1.549487
+"SIDM00090","OVCAR-8","Ovarian Carcinoma","Ovarian","Source",-4.181624
+"SIDM00091","OVCAR-5","Ovarian Carcinoma","Ovarian","Source",1.258651
+"SIDM00092","OVCAR-4","Ovarian Carcinoma","Ovarian","Source",4.01383
+"SIDM00105","OVCAR-3","Ovarian Carcinoma","Ovarian","Source",0.289674
+"SIDM00151","IGROV-1","Ovarian Carcinoma","Ovarian","Source",-1.010788
+"SIDM00210","A2780","Ovarian Carcinoma","Ovarian","Source",-4.045816
+"SIDM00220","OC-314","Ovarian Carcinoma","Ovarian","Source",-3.73483
+"SIDM00238","OVK-18","Ovarian Carcinoma","Ovarian","Source",-2.390266
+"SIDM00303","JHOS-4","Ovarian Carcinoma","Ovarian","Source",1.445392
+"SIDM00304","JHOS-3","Ovarian Carcinoma","Ovarian","Source",-0.421614
+"SIDM00305","JHOS-2","Ovarian Carcinoma","Ovarian","Source",-1.537661
+"SIDM00321","TYK-nu","Ovarian Carcinoma","Ovarian","Source",-2.277315
+"SIDM00352","RMG-I","Ovarian Carcinoma","Ovarian","Source",4.068712
+"SIDM00425","OVTOKO","Ovarian Carcinoma","Ovarian","Source",2.107736
+"SIDM00465","OVMIU","Ovarian Carcinoma","Ovarian","Source",1.77343
+"SIDM00466","OVKATE","Ovarian Carcinoma","Ovarian","Source",6.711783
+"SIDM00472","PEO1","Ovarian Carcinoma","Ovarian","Source",-1.932101
+"SIDM00474","OV-7","Ovarian Carcinoma","Ovarian","Source",-1.905191
+"SIDM00475","OV-56","Ovarian Carcinoma","Ovarian","Source",-0.952177
+"SIDM00476","OV-17R","Ovarian Carcinoma","Ovarian","Source",2.062634
+"SIDM00480","OAW-42","Ovarian Carcinoma","Ovarian","Source",-2.966931
+"SIDM00481","OAW-28","Ovarian Carcinoma","Ovarian","Source",0.722122
+"SIDM00554","KURAMOCHI","Ovarian Carcinoma","Ovarian","Source",5.370494
+"SIDM00564","OVISE","Ovarian Carcinoma","Ovarian","Source",0.430623
+"SIDM00815","UWB1.289","Ovarian Carcinoma","Ovarian","Source",-0.480618
+"SIDM00861","ES-2","Ovarian Carcinoma","Ovarian","Source",-3.85905
+"SIDM00918","Caov-4","Ovarian Carcinoma","Ovarian","Source",-1.02343
+"SIDM00919","Caov-3","Ovarian Carcinoma","Ovarian","Source",-5.473842
+"SIDM00966","OVCA433","Ovarian Carcinoma","Ovarian","Source",-2.481272
+"SIDM00967","OVCA420","Ovarian Carcinoma","Ovarian","Source",1.80746
+"SIDM00968","Hey","Ovarian Carcinoma","Ovarian","Source",-2.777952
+"SIDM00969","DOV13","Ovarian Carcinoma","Ovarian","Source",-4.73914
+"SIDM01040","FU-OV-1","Ovarian Carcinoma","Ovarian","Source",6.921125
+"SIDM01051","EFO-27","Ovarian Carcinoma","Ovarian","Source",2.552575
+"SIDM01052","EFO-21","Ovarian Carcinoma","Ovarian","Source",0.680919
+"SIDM01140","PA-1","Ovarian Carcinoma","Ovarian","Source",-3.441291
+"SIDM01141","OV-90","Ovarian Carcinoma","Ovarian","Source",0.023667
+"SIDM01169","TOV-21G","Ovarian Carcinoma","Ovarian","Source",0.185741
+"SIDM01170","TOV-112D","Ovarian Carcinoma","Ovarian","Source",-4.186755
